@@ -6,6 +6,6 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 
-class ExamplePipeline(object):
+class MailanPipeline(object):
     def process_item(self, item, spider):
         return item

@@ -3,9 +3,9 @@ from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 
 
-from example.items import ExampleItem
+from mailan.items import MailanItem
 
-class ExampleSpider(CrawlSpider):
+class MailanSpider(CrawlSpider):
     """
     This spider will try to crawl whatever is passed in `start_urls` which
     should be a comma-separated string of fully qualified URIs.
@@ -15,13 +15,15 @@ class ExampleSpider(CrawlSpider):
     def __init__(self, name=None, **kwargs):
         if 'start_urls' in kwargs:
             self.start_urls = kwargs.pop('start_urls').split(',')
-        super(ExampleSpider, self).__init__(name, **kwargs)
+        super(MailanSpider, self).__init__(name, **kwargs)
 
-    name = "example"
+    name = "mailan"
 
     """
-    The spider will crawl links in the start_url but crawl only one level deep (follow=False) so that we do not go too deep
-    with too much data
+    Rules: The spider will crawl links designated from the start_urls
+                in addition to crawling form the URI listed, the spider will crawl only one level deep (follow=False)
+                so that we do not crawl too deep and become overwhelmed by too much data
+                all domains are allowed
     """
     rules = (
         Rule(
@@ -37,7 +39,7 @@ class ExampleSpider(CrawlSpider):
     """
     def parse_page(self, response):
         for sel in response.xpath('//img'):
-            item = ExampleItem()
+            item = MailanItem()
             item['img_src'] = sel.xpath('@src').extract()
             item["page_url"] = response.request.url
             yield item

@@ -8,6 +8,6 @@
 import scrapy
 
 
-class ExampleItem(scrapy.Item):
+class MailanItem(scrapy.Item):
     img_src = scrapy.Field()
     page_url = scrapy.Field()
