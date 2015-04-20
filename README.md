@@ -87,7 +87,7 @@ You will learn
 * how to run your a mailan-spider crawl using Scrapy
 * how to use Boot2Docker on your Mac OS X
 * how to use Scrapyd to schedule crawls and manage them
-* how to deploy your DockerHub
+* how to deploy your image to your DockerHub
 
 1. Clone this repository
 
@@ -228,46 +228,43 @@ You will learn
 
     * Once the launch completes, you can run docker commands. A good way to verify your setup succeeded is to run the hello-world container.
 
-                ```bash
-                    bash-3.2$ docker run hello-world
-                    Hello from Docker.
-                    This message shows that your installation appears to be working correctly.
+        ```bash
+            bash-3.2$ docker run hello-world
+            Hello from Docker.
+            This message shows that your installation appears to be working correctly.
 
-                    To generate this message, Docker took the following steps:
-                     1. The Docker client contacted the Docker daemon.
-                     2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
-                        (Assuming it was not already locally available.)
-                     3. The Docker daemon created a new container from that image which runs the
-                        executable that produces the output you are currently reading.
-                     4. The Docker daemon streamed that output to the Docker client, which sent it
-                        to your terminal.
+            To generate this message, Docker took the following steps:
+             1. The Docker client contacted the Docker daemon.
+             2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+                (Assuming it was not already locally available.)
+             3. The Docker daemon created a new container from that image which runs the
+                executable that produces the output you are currently reading.
+             4. The Docker daemon streamed that output to the Docker client, which sent it
+                to your terminal.
 
-                    To try something more ambitious, you can run an Ubuntu container with:
-                     $ docker run -it ubuntu bash
+            To try something more ambitious, you can run an Ubuntu container with:
+             $ docker run -it ubuntu bash
 
-                    For more examples and ideas, visit:
-                     http://docs.docker.com/userguide/
-                    bash-3.2$
+            For more examples and ideas, visit:
+             http://docs.docker.com/userguide/
+            bash-3.2$
 
-                ```
+        ```
 
-                * To check what images you have on your boot2docker VM
-                 ```bash
-                        bash-3.2$ docker images
-                 ```
+        * Check what images you have on your boot2docker VM
 
-                * You should see in return at this point
-                     ```bash
-                        REPOSITORY          TAG                 IMAGE ID            CREATED              VIRTUAL SIZE
-                        scrapyd             latest              9db96efb336a        About a minute ago   561.1 MB
-                        hello-world         latest              91c95931e552        2 days ago           910 B
-                     ```
+         ```bash
+                bash-3.2$ docker images
+                REPOSITORY          TAG                 IMAGE ID            CREATED              VIRTUAL SIZE
+                scrapyd             latest              9db96efb336a        About a minute ago   561.1 MB
+                hello-world         latest              91c95931e552        2 days ago           910 B
+         ```
 
+        * I recommend review docker's commands and functionality before you proceed (Docker Command Lines)[https://docs.docker.com/reference/commandline/cli/]
 
-                * I recommend review docker's commands and functionalitybefore you procees (Docker Command Lines)[https://docs.docker.com/reference/commandline/cli/]
-                      ```bash
-                            bash-3.2$ docker
-                       ```
+          ```bash
+                bash-3.2$ docker
+          ```
 
     * To create a docker container we need a Dockerfile which automates our build. Fortunately, There is one written already in this repository for you! (written by Andrew Huynh <andrew@productbio.com>)
         * Mount a volume on the container
@@ -428,7 +425,7 @@ You will learn
      {"status": "ok", "project": "mailan", "version": "46b43ae-master", "spiders": 1}
      ```
 
-     * Note: If we have more spiders that we wrote, we can deploy as many spiders as we want! I didn't do this in this guide for simplicity.
+     * Note: If we have more spiders that we wrote, we can deploy as many spiders as we want! I didn't do this in this guide to keep it simple.
 
 
      * Check that our docker container was uploaded.
@@ -459,7 +456,8 @@ You will learn
         C /tmp
         A /twistd.pid
         ```
-            * We can see that the eggs are in the file diff!
+
+        * We can see that the eggs are in the file diff!
 
 6. Now that we have our mailan-spider uploaded to our scrapd container we should be able to do many crawls
 
@@ -535,11 +533,14 @@ You will learn
 
       * In the terminal with the running scrapd container, you can terminate the server by pressing Control + C
           You should see the following upon successful shutdown
-          ```
+
+          ```bash
           ^C2015-04-20 04:17:45+0000 [-] Received SIGINT, shutting down.
           2015-04-20 04:17:45+0000 [-] (TCP Port 6800 Closed)
           ...
           2015-04-20 04:31:59+0000 [-] Server Shut Down.
+          ```
+
       *  Pull up info of the recently shut down container
       ```bash
       bash-3.2$ docker ps -ls
@@ -548,10 +549,13 @@ You will learn
       ```
 
         * NOTE: If you haven't already done so, in a web browse, create a DockerHub account (https://hub.docker.com/)
+
             * Click on "Add Repository' and add a repo with your desired name, in my case 'mailan-spider'
 
       * Go back to your boot2docker terminal and commit your docker container to a new name
-       * (the required format to upload to your account is dockerhub-account-name/repository-name
+
+        * (the required format to upload to your account is dockerhub-account-name/repository-name
+        
       ```bash
       bash-3.2$ docker commit 66e404162fcf iammai/mailan-spider
       688cc34903b0746774e629c73e843a83ab9b78c2dd0f431a0315745bedec219c
@@ -567,22 +571,25 @@ You will learn
         da97dccd7aaf        hello-world:latest   "/hello"            About an hour ago   Exited (0) About an hour ago                       fervent_poincare
         ```
 
-        *bash-3.2$ docker images
+        ```bash
+        bash-3.2$ docker images
          REPOSITORY             TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
          iammai/mailan-spider   latest              688cc34903b0        10 minutes ago      562.7 MB
          scrapyd                latest              9db96efb336a        About an hour ago   561.1 MB
          hello-world            latest              91c95931e552        2 days ago          910 B
          debian                 wheezy              1265e16d0c28        2 weeks ago         84.98 MB
-        *
+        ```
 
 9. Upload the container to your Dockerhub account. In your boot2docker terminal:
 
-        * connect your boot2docker to your dockerhub account
-          ```
-         bash-3.2$ sudo docker login
-          ```
+    * connect your boot2docker to your dockerhub account
 
-       * push your docker container to the hub
+      ```
+     bash-3.2$ sudo docker login
+      ```
+
+     * push your docker container to the hub
+
        ```bash
        bash-3.2$ docker push iammai/mailan-spider
        The push refers to a repository [iammai/mailan-spider] (len: 1)
@@ -614,15 +621,15 @@ You will learn
 
 ### Summany of docker images and docker containers flow in a nutshell
 
-        * The image is a template for docker containers. It has all of the files (OS, configuration) including your application.
-        * A container is an instance of an image.
-        * You can make changes to a container, but these changes will not affect the image.
-            * However, you can create a new image from a container (and all it changes) using docker commit <container-id> <image-name>.
-        * When you create a new container, you build it from an image or by using a Dockerfile.
-        * You can then go modify the container, which changes the contents of the container.
-        * Based on the modified container, you can create or update an image based on your changes to your container.
-        * You can upload your image to DockerHub.
-        * Others can download your image and recreate new containers that will be exact copies of your container.
+    * The image is a template for docker containers. It has all of the files (OS, configuration) including your application.
+    * A container is an instance of an image.
+    * You can make changes to a container, but these changes will not affect the image.
+        * However, you can create a new image from a container (and all it changes) using docker commit <container-id> <image-name>.
+    * When you create a new container, you build it from an image or by using a Dockerfile.
+    * You can then go modify the container, which changes the contents of the container.
+    * Based on the modified container, you can create or update an image based on your changes to your container.
+    * You can upload your image to DockerHub.
+    * Others can download your image and recreate new containers that will be exact copies of your container.
 
 ## Contributing
 
